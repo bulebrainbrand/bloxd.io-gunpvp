@@ -51,6 +51,38 @@ const giveKit = id => {
 }
 
 const checkEnd = () => {
+  let teamHas = [false,false]
+  for(const [id,team] of Array.from(teamData)){
+    teamHas[team] = true
+    if(!teamHas.includes(false))break;
+  }
+  if(teamHas.includes(false)){
+    end(teamHas.indexOf(false))
+    return;
+  }
+  if(redTicket <= 0){
+    end(0)
+    return;
+  }
+  
+  if(blueTicket <= 0){
+    end(1)
+    return;
+  }
+
+  if(count >= phase1Time){
+    if(redTicket < blueTicket){
+      end(0)
+      return;
+    }
+    else{
+      end(1)
+      return
+    }
+  }
+}
+
+const end = (loseTeam) => {
   
 }
 
