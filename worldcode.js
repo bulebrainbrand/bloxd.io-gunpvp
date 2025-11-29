@@ -24,9 +24,12 @@ const onChangePhaseTo1 = () => {
 }
 
 const startBattle = () => {
-  
+  teamData.clear()
+  setPlayerTeaw()
 }
 
 const setPlayerTeam = () => {
-  
+  for(const [i,id] of api.getPlayerIds().entries()){
+    teamData.set(id,i%2)
+  }
 }
