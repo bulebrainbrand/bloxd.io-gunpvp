@@ -12,6 +12,16 @@ const craftShop = {
   "M1911":10,
   "MP40":20,
 }
+const applyCraft = id => {
+  for(const [name,needAmount] of Object.entries(craftShop)){
+    api.editItemCraftingRecipes(id,name,[{
+        requires:[{ items:["Gold Coin"], amt:needAmount }],
+        produces:1,
+        station:"Workbench",
+        isStarterRecipe:true,
+    }])
+  }
+}
 let redTicket = 0
 let blueTicket = 0
 // teamindexは0がred,1がblue
@@ -163,6 +173,7 @@ onPlayerChangeBlock = (id,x,y,z,from,to) => {
 onPlayerJoin = id => {
   api.removeItemCraftingRecipes(id,null)
   api.setPosition(id,lobbySpawn)
+  applyCraft(id)
   if(phase === 1){
     const [redAmount,blueAmount] = getTeamPlayerAmount()
     if(red < blueAmount){
