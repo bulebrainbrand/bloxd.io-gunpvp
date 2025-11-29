@@ -87,7 +87,9 @@ const end = (loseTeam) => {
 }
 
 const downTicket = (team,amount) => {
-  
+  if(team === 0)redTicket -= amount
+  if(team === 1)blueTicket -= amount
+  api.broadcastMessage([{str:team === 0?"赤チームのチケット":"青チームのチケット",style:{color:team === 0?"red":"blue"}},`が${amount}減少し,${team === 0?redTicket:blueTicket}になりました`])
 }
 
 onPlayerDamagingOtherPlayer = (ap,dp) => {
