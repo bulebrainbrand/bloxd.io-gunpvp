@@ -186,3 +186,8 @@ onPlayerJoin = id => {
     }
   }
 }
+onRespawnRequest = id => {
+  if(!teamData.has(id))return lobbySpawn;
+  if(teamData.get(id) === 0)return redSpawn;
+  return blueSpawn;
+}
