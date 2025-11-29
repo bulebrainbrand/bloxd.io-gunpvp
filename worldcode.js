@@ -4,10 +4,14 @@ const lobbySpawn = [0,0,0] //あとで決める
 const beaconPos = [[0,0,0],[0,0,0]] //あとで決める
 
 const gun = ["M1911","AK-47","M16","MP40","AWP","Double Barrel","TAR-21"] //まだあるかも
-const hasGun = id => gun.every(gunName => !api.hasItem(id,gunName))
+const getAmountGun = id => gun.every(gunName => !api.hasItem(id,gunName))
 
 const phase0Time = 30*20 //30秒(tick単位だから)
 const phase1Time = 10*60*20 //10分
+const craftShop = {
+  "M1911":10,
+  "MP40":20,
+}
 let redTicket = 0
 let blueTicket = 0
 // teamindexは0がred,1がblue
@@ -157,6 +161,7 @@ onPlayerChangeBlock = (id,x,y,z,from,to) => {
 }
 
 onPlayerJoin = id => {
+  api.removeItemCraftingRecipes(id,null)
   api.setPosition(id,lobbySpawn)
   if(phase === 1){
     const [redAmount,blueAmount] = getTeamPlayerAmount()
