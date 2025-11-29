@@ -141,6 +141,7 @@ onPlayerDamagingOtherPlayer = (ap,dp) => {
 
 onPlayerKilledOtherPlayer = (ap,kp) => {
   if(teamData.has(kp)){
+    if(ap !== kp)api.giveItem(ap,"Gold Coin",10)
     const team = teamData.get(kp)
     downTicket(team,1)
     checkEnd()
