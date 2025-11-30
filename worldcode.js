@@ -155,7 +155,7 @@ const setRightInfo = id => {
 const getTeamPlayerAmount = () => {
   let redAmount = 0
   let blueAmount = 0
-  for(const team of Array.from(teamData.values())){
+  for(const team of teamData.values()){
     if(team === 0){
       redAmount++
     }
@@ -184,7 +184,7 @@ onPlayerKilledOtherPlayer = (ap,kp) => {
 }
 
 onPlayerChangeBlock = (id,x,y,z,from,to) => {
-  if(to === "Beacon"){
+  if(from === "Beacon"){
     const team = teamData.get(id)
     downTicket(Number(!team),10) //壊した人の逆のチームにする
     checkEnd()
