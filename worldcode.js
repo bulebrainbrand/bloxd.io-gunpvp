@@ -146,7 +146,7 @@ const setRightInfo = id => {
       {str:`青のチケット:${blueTicket}`,style:{color:"blue"}},
       "\n",
       "試合終了まで",
-      {str:String(Math.ceil(phase1Time-count/20)),style:{color:"lime"}},
+      {str:String(Math.ceil((phase1Time-count)/20)),style:{color:"lime"}},
     )
   }
   api.setClientOption(id,"RightInfoText",text)
