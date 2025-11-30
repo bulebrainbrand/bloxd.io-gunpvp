@@ -38,7 +38,12 @@ tick = () => {
 }
 
 const onChangePhaseTo1 = () => {
-  if(api.getPlayerIds().length >= 2)startBattle()
+  if(api.getPlayerIds().length >= 2){startBattle()}
+  else{
+    phase = 0
+    count = 0
+    api.broadcastMessage("最低2人必要です")
+  }
 }
 
 const startBattle = () => {
@@ -64,7 +69,7 @@ const setPlayerTeam = () => {
 }
 
 const giveKit = id => {
-  
+  //二次実装
 }
 
 const checkEnd = () => {
@@ -126,10 +131,17 @@ const downTicket = (team,amount) => {
 const setRightInfo = id => {
   let text = []
   if(phase === 0){
-    //あとでやる
+    text.push("starting in",{str:String(Math.ceil((phase0Time-count)/20)),style:{color:"lime"}})
   }
   if(phase === 1){
-    //あとでやる
+    text.push(
+      {str:"---Fighting!!---\n\n",style:{color:"red"}},
+      {str:`赤のチケット:${redTicket}`,style:{color:"red"}},
+      {str:`青のチケット:${blueTicket}`,style:{color:"blue"}},
+      "\n",
+      "試合終了まで",
+      {str:String(Math.ceil(phase1Time-count/20)),style:{color:"lime"}},
+    )
   }
   api.setClientOption(id,"RightInfoText",text)
 }
@@ -149,13 +161,16 @@ const getTeamPlayerAmount = () => {
 }
 
 onPlayerDamagingOtherPlayer = (ap,dp) => {
-  if(teamData.has(ap) && teamData.has(dp))return;
+  if(teamData.has(ap) && teamData.has(dp)){
+    if(teamData.get(ap) === teamData.get(dp))return "preventDamage";
+    return;
+  }
   return "preventChange"
 }
 
 onPlayerKilledOtherPlayer = (ap,kp) => {
   if(teamData.has(kp)){
-    if(ap !== kp)api.giveItem(ap,"Gold Coin",10)
+    if(ap !== kp)api.giveItem(ap,"Gold Coin",10);
     const team = teamData.get(kp)
     downTicket(team,1)
     checkEnd()
@@ -166,6 +181,7 @@ onPlayerChangeBlock = (id,x,y,z,from,to) => {
   if(to === "Beacon"){
     const team = teamData.get(id)
     downTicket(Number(!team),10) //壊した人の逆のチームにする
+    checkEnd()
     return "preventChange"
   }
 }
