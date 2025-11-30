@@ -4,7 +4,7 @@ const lobbySpawn = [0,0,0] //あとで決める
 const beaconPos = [[0,0,0],[0,0,0]] //あとで決める
 
 const gun = ["M1911","AK-47","M16","MP40","AWP","Double Barrel","TAR-21"] //まだあるかも
-const getAmountGun = id => gun.every(gunName => !api.hasItem(id,gunName))
+const getAmountGun = id => gun.reduce((num,gunName) => num + api.getInventoryItemAmount(id,gunName),0)
 
 const phase0Time = 30*20 //30秒(tick単位だから)
 const phase1Time = 10*60*20 //10分
@@ -34,6 +34,12 @@ tick = () => {
     phase = 1
     count = 0
     onChangePhaseTo1()
+  }
+  if(phase === 1 && phase1Time <= count)checkEnd();
+  const ids = api.getPlayerIds()
+  const id = ids[count % ids.length]
+  if(id){
+    setRightInfo(id)
   }
 }
 
@@ -192,7 +198,7 @@ onPlayerJoin = id => {
   applyCraft(id)
   if(phase === 1){
     const [redAmount,blueAmount] = getTeamPlayerAmount()
-    if(red < blueAmount){
+    if(redAmount < blueAmount){
       teamData.set(id,0)
       setTeam(id,0)
     }
