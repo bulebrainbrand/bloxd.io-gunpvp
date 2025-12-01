@@ -197,6 +197,7 @@ onPlayerChangeBlock = (id,x,y,z,from,to) => {
 onPlayerJoin = id => {
   api.removeItemCraftingRecipes(id,null)
   api.setPosition(id,lobbySpawn)
+  api.setCanChangeBlockType(id,"Beacon")
   applyCraft(id)
   if(phase === 1){
     const [redAmount,blueAmount] = getTeamPlayerAmount()
