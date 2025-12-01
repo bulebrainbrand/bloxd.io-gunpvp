@@ -219,7 +219,7 @@ onRespawnRequest = id => {
 }
 
 onPlayerAttemptCraft = (id, item) => {
-  if(gun.includes(item) && getAmountGun(id) > maxHasGun){
+  if(gun.includes(item) && getAmountGun(id) >= maxHasGun){
     api.sendMessage(id,`銃は同時に${maxHasGun}個までしか持てません!!`)
     return "preventCraft"
   }
