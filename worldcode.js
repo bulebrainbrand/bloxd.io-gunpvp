@@ -68,6 +68,7 @@ const setTeam = (id,team) => {
   api.giveItem(id,"M1911")
   api.setPosition(id,team === 0?redSpawn:blueSpawn)
   giveKit(id)
+  api.setTargetedPlayerSettingForEveryone(id,"nameTagInfo",{backgroundColor:team === 0?"red":"blue"},true)
 }
 
 const setPlayerTeam = () => {
@@ -113,6 +114,7 @@ const checkEnd = () => {
 const end = (loseTeam) => {
   for(const id of api.getPlayerIds()){
     api.setPosition(id,lobbySpawn)
+    api.setTargetedPlayerSettingForEveryone(id,"nameTagInfo",{backgroundColor:"black"},true)
   }
   for(const [id,team] of Array.from(teamData)){
     if(team === loseTeam){lose(id)}else{win(id)};
