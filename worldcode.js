@@ -223,3 +223,5 @@ onPlayerAttemptCraft = (id, item) => {
     return "preventCraft"
   }
 }
+
+onPlayerDropItem = () => "allowButNoDroppedItemCreated"
