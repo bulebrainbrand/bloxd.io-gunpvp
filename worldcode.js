@@ -5,7 +5,7 @@ const beaconPos = [[0,0,0],[0,0,0]] //あとで決める
 
 const gun = ["M1911","AK-47","M16","MP40","AWP","Double Barrel","TAR-21"] //まだあるかも
 const getAmountGun = id => gun.reduce((num,gunName) => num + api.getInventoryItemAmount(id,gunName),0)
-
+const maxHasGun = 2
 const phase0Time = 30*20 //30秒(tick単位だから)
 const phase1Time = 10*60*20 //10分
 const craftShop = {
@@ -210,8 +210,16 @@ onPlayerJoin = id => {
     }
   }
 }
+
 onRespawnRequest = id => {
   if(!teamData.has(id))return lobbySpawn;
   if(teamData.get(id) === 0)return redSpawn;
   return blueSpawn;
+}
+
+onPlayerAttemptCraft = (id, item) => {
+  if(gun.includes(item) && getAmountGun(id) > maxHasGun){
+    api.sendMessage(id,`銃は同時に${maxHasGun}個までしか持てません!!`)
+    return "preventCraft"
+  }
 }
