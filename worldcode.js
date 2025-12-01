@@ -226,3 +226,5 @@ onPlayerAttemptCraft = (id, item) => {
 }
 
 onPlayerDropItem = () => "allowButNoDroppedItemCreated"
+
+onPlayerLeave = id => teamData.delete(id)
